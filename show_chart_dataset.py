@@ -39,8 +39,11 @@ def boxplots_custom(dataset, columns_list, rows, cols, suptitle):
 if __name__ == '__main__':
     raw_df = pd.read_csv('creditcard.csv')
 
-    show_dataset_ratio()
+    # show_dataset_ratio()
 
     numeric_columns = (list(raw_df.loc[:, 'V1':'Amount']))
     boxplots_custom(dataset=raw_df, columns_list=numeric_columns, rows=10, cols=3, suptitle='Boxplots for each variable')
     plt.tight_layout()
+    plt.show()
+
+    print("All done")
