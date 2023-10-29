@@ -28,7 +28,7 @@ def show_dataset_ratio():
 
 # checking boxplots
 def boxplots_custom(dataset, columns_list, rows, cols, suptitle):
-    fig, axs = plt.subplots(rows, cols, sharey=True, figsize=(16,25))
+    fig, axs = plt.subplots(rows, cols, sharey=True, figsize=(15,25))
     fig.suptitle(suptitle,y=1, size=25)
     axs = axs.flatten()
     for i, data in enumerate(columns_list):
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # show_dataset_ratio()
 
     numeric_columns = (list(raw_df.loc[:, 'V1':'Amount']))
-    boxplots_custom(dataset=raw_df, columns_list=numeric_columns, rows=10, cols=3, suptitle='Boxplots for each variable')
+    boxplots_custom(dataset=raw_df, columns_list=numeric_columns, rows=8, cols=4, suptitle='Boxplots for each variable')
     plt.tight_layout()
     plt.show()
 
