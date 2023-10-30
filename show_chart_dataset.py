@@ -4,7 +4,7 @@ import plotly.express as px
 from matplotlib import pyplot as plt
 
 
-def show_pie_chart():
+def show_pie_chart(raw_df):
     # raw_df = pd.read_csv('creditcard.csv')
 
     labels = ["Genuine", "Fraud"]
@@ -21,7 +21,7 @@ def show_pie_chart():
     fig.show()
 
 
-def show_barchart():
+def show_barchart(raw_df):
     plt.figure(figsize=(3, 4))
     ax = sns.countplot(x='Class', data=raw_df)
     for i in ax.containers:
@@ -41,8 +41,8 @@ def boxplots_custom(dataset, columns_list, rows, cols, suptitle):
 if __name__ == '__main__':
     raw_df = pd.read_csv('creditcard.csv')
 
-    show_pie_chart()
-    show_barchart()
+    show_pie_chart(raw_df)
+    show_barchart(raw_df)
 
     numeric_columns = (list(raw_df.loc[:, 'V1':'Amount']))
     boxplots_custom(dataset=raw_df, columns_list=numeric_columns, rows=8, cols=4, suptitle='Boxplots for each variable')
