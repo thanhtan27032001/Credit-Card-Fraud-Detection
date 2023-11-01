@@ -1,6 +1,6 @@
+import read_dataset
 import show_chart_dataset
 import numpy as np
-import pandas as pd
 from matplotlib import pyplot as plt
 from collections import Counter
 
@@ -64,7 +64,7 @@ def remove_duplicated_rows_and_outliers(raw_df):
 
 
 if __name__ == '__main__':
-    raw_df = pd.read_csv('creditcard.csv')
+    raw_df = read_dataset.read_raw_dataset()
 
     # show origin dataset
     show_chart_dataset.show_barchart(raw_df)

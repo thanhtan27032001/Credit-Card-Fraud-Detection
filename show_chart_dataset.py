@@ -1,11 +1,10 @@
-import pandas as pd
+import read_dataset
 import seaborn as sns
 import plotly.express as px
 from matplotlib import pyplot as plt
 
 
 def show_pie_chart(raw_df):
-    # raw_df = pd.read_csv('creditcard.csv')
 
     labels = ["Genuine", "Fraud"]
 
@@ -39,7 +38,7 @@ def boxplots_custom(dataset, columns_list, rows, cols, suptitle):
 
 
 if __name__ == '__main__':
-    raw_df = pd.read_csv('creditcard.csv')
+    raw_df = read_dataset.read_raw_dataset()
 
     show_pie_chart(raw_df)
     show_barchart(raw_df)
