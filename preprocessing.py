@@ -1,6 +1,8 @@
-import pandas as pd
 import show_chart_dataset
+import numpy as np
+import pandas as pd
 from matplotlib import pyplot as plt
+from collections import Counter
 
 
 def remove_duplicated_rows(df):
@@ -12,16 +14,49 @@ def remove_duplicated_rows(df):
     return df
 
 
+def IQR_method(df, n, features):
+    """
+    Takes a dataframe and returns an index list corresponding to the observations
+    containing more than n outliers according to the Tukey IQR method.
+    """
+    outlier_list = []
+
+    for column in features:
+        # 1st quartile (25%)
+        Q1 = np.percentile(df[column], 25)
+        # 3rd quartile (75%)
+        Q3 = np.percentile(df[column], 75)
+        # Interquartile range (IQR)
+        IQR = Q3 - Q1
+        # outlier step
+        outlier_step = 1.5 * IQR
+        # Determining a list of indices of outliers
+        outlier_list_column = df[(df[column] < Q1 - outlier_step) | (df[column] > Q3 + outlier_step)].index
+        # appending the list of outliers
+        outlier_list.extend(outlier_list_column)
+
+    # selecting observations containing more than x outliers
+    outlier_list = Counter(outlier_list)
+    multiple_outliers = list(k for k, v in outlier_list.items() if v > n)
+
+    # Calculate the number of records below and above lower and above bound value respectively
+    out1 = df[df[column] < Q1 - outlier_step]
+    out2 = df[df[column] > Q3 + outlier_step]
+
+    print('Total number of deleted outliers is:', out1.shape[0] + out2.shape[0])
+
+    return multiple_outliers
+
+
 if __name__ == '__main__':
     raw_df = pd.read_csv('creditcard.csv')
 
-    # origin
+    # show origin dataset
     show_chart_dataset.show_barchart(raw_df)
 
-    # after remove duplicated rows
+    # remove duplicated rows
     df = raw_df.copy()
     df = remove_duplicated_rows(df)
-    show_chart_dataset.show_barchart(df)
 
     # check outliers
     numeric_columns = (list(raw_df.loc[:, 'V1':'Amount']))
@@ -33,7 +68,14 @@ if __name__ == '__main__':
         suptitle='Boxplots for each variable'
     )
 
+    # detecting outliers
+    Outliers_IQR = IQR_method(df, 1, numeric_columns)
+
+    # dropping outliers
+    df_out = df.drop(Outliers_IQR, axis=0).reset_index(drop=True)
+
     # show plot and done
+    show_chart_dataset.show_barchart(df_out)
     plt.tight_layout()
     plt.show()
     print("All done")
