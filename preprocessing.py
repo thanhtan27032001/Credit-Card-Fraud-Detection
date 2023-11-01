@@ -48,6 +48,21 @@ def IQR_method(df, n, features):
     return multiple_outliers
 
 
+def remove_duplicated_rows_and_outliers(raw_df):
+    # remove duplicated rows
+    df = raw_df.copy()
+    df = remove_duplicated_rows(df)
+
+    # detecting outliers
+    Outliers_IQR = IQR_method(df, 1, numeric_columns)
+
+    # dropping outliers
+    df_out = df.drop(Outliers_IQR, axis=0).reset_index(drop=True)
+
+    print("Done remove_duplicated_rows_and_outliers()")
+    return df_out
+
+
 if __name__ == '__main__':
     raw_df = pd.read_csv('creditcard.csv')
 
