@@ -48,7 +48,7 @@ def IQR_method(df, n, features):
     return multiple_outliers
 
 
-def remove_duplicated_rows_and_outliers(raw_df):
+def remove_duplicated_rows_and_outliers(raw_df, numeric_columns):
     # remove duplicated rows
     df = raw_df.copy()
     df = remove_duplicated_rows(df)
